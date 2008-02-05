@@ -1,2 +1,4 @@
-require 'bots/optimalbot/footsteps.rb'
+
+require 'vying'
+require 'bots/optimalbot/footsteps.rb' unless defined? OptimalBot
 
