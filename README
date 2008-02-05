@@ -1,0 +1,52 @@
+= OptimalBot
+
+OptimalBot (Opti) is a bot for Vying Games.  It's based on the work of Magnus
+Javerberg who worked out the math for what he believes is the optimal strategy
+for the game Footsteps.  The code for the implementation was written by Eric K
+Idema.  For more on this see:
+
+  http://vying.org/games/footsteps
+  http://vying.org/user/OptimalBot
+
+
+= License
+
+OptimalBot is licensed under the same license as Ruby itself.
+
+
+= Installation
+
+OptimalBot is available as a gem.  (Note:  it depends on the vying gem)
+
+  gem install optimalbot --source http://vying.org
+
+Or, you can get the source directly from Subversion:
+
+  svn co svn://code.vying.org/optimalbot/trunk optimalbot
+
+
+= Dependencies
+
+Opti is dependent on the vying gem.  But it's also dependent on either
+the sqlite-ruby gem or the sqlite3-ruby gem.  You should use the gem that
+matches whatever version of Sqlite you have installed on your system.
+
+
+= Development
+
+See the following website for development related issues:
+
+  http://vying.org/dev/public
+
+
+= Usage
+
+The vying gem and commandline tool should pick up OptimalBot automatically.
+
+
+= SQL
+
+The optimal solution data is stored in an Sqlite database file (footsteps.db
+for Sqlite2 and footsteps3.db for Sqlite3).  An sql dump of the database is
+provided in footsteps.sql[link:footsteps.sql].
+
