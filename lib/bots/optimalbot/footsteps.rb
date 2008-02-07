@@ -18,7 +18,7 @@ class OptimalBot < Bot
     difficulty :hard
 
     $:.each do |d|
-      Dir.glob( "#{d}/**/ai/bots/optimalbot/*" ) do |f|
+      Dir.glob( "#{d}/**/bots/optimalbot/*" ) do |f|
         if f =~ DB_FILE
           FOOTSTEPS_DB = f unless defined? FOOTSTEPS_DB
         end
