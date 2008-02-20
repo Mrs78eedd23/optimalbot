@@ -72,11 +72,13 @@ if defined?( Gem ) && pkg_version
     s.version = pkg_version
     s.summary = 'OptimalBot - A Footsteps Playing Bot for Vying Games'
     s.description = 'Vying is a game library.'
+    s.homepage = 'http://vying.org/dev/public'
+    s.rubyforge_project = 'Silence stupid WARNINGS'
+    s.has_rdoc = true
     s.files = PKG_FILES.to_a
     #s.add_dependency "sqlite-ruby", ">= 2.2.3"
     #s.add_dependency "sqlite3-ruby"
     s.add_dependency "vying"
-    s.require_paths << "ext"
     s.author = 'Eric K Idema and Magnus Javerberg'
     s.email = 'eki@vying.org'
   end
