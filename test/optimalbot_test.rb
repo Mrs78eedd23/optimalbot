@@ -10,7 +10,7 @@ class OptimalBotTest < Test::Unit::TestCase
     assert( bot.respond_to?( :select ) )
     assert( bot.respond_to?( :offer_draw? ) )
     assert( bot.respond_to?( :accept_draw? ) )
-    assert( bot.respond_to?( :forfeit? ) )
+    assert( bot.respond_to?( :resign? ) )
   end
 
 end
