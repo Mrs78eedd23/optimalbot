@@ -42,6 +42,7 @@ end
 # Try to load the version number -- it's okay if it's not available
 
 begin
+  require 'optimalbot'
   require 'lib/version.rb'
 rescue Exception
   class OptimalBot; end
