@@ -9,8 +9,7 @@ include FileUtils
 ### cleanup tasks
 ###
 
-CLEAN.include( 'lib/version.rb' )
-CLOBBER.include( 'pkg', 'doc/api' )
+CLOBBER.include( 'pkg', 'doc/api', 'lib/version.rb' )
 
 ###
 ### test task
@@ -40,13 +39,19 @@ end
 ###  RubyGems related tasks follow:
 ###
 
-wd = Dir.pwd
-wd =~ /\/v([\d\.]*)$/
-pkg_version = $1
+# Try to load the version number -- it's okay if it's not available
 
-desc "Appends the tagged version to lib/version.rb"
+begin
+  require 'lib/version.rb'
+rescue Exception
+  class OptimalBot; end
+end
+
+desc "Appends the value in VERSION to lib/version.rb"
 task :version do
-  sh %{echo 'class OptimalBot < Bot; VERSION = "#{pkg_version}"; end' >> lib/version.rb}
+  v = ENV['VERSION']
+  raise "provide a VERSION via the environment variable" unless v
+  sh %{echo 'class OptimalBot < Bot; VERSION = "#{v}"; end' >> lib/version.rb}
 end
 
 begin
@@ -56,8 +61,8 @@ rescue Exception
   nil
 end
 
-if defined?( Gem ) && pkg_version
-  task :gem => [:clean, :test, :version]
+if defined?( Gem ) && OptimalBot.const_defined?( 'VERSION' )
+  task :gem => [:clean, :test]
 
   PKG_FILES = FileList[
     'lib/**/*',
@@ -69,16 +74,14 @@ if defined?( Gem ) && pkg_version
 
   spec = Gem::Specification.new do |s|
     s.name = 'optimalbot'
-    s.version = pkg_version
-    s.summary = 'OptimalBot - A Footsteps Playing Bot for Vying Games'
+    s.version = OptimalBot::VERSION
+    s.summary = 'OptimalBot (plays Footsteps) for Vying Games'
     s.description = 'Vying is a game library.'
     s.homepage = 'http://vying.org/dev/public'
     s.rubyforge_project = 'Silence stupid WARNINGS'
     s.has_rdoc = true
     s.files = PKG_FILES.to_a
-    #s.add_dependency "sqlite-ruby", ">= 2.2.3"
-    #s.add_dependency "sqlite3-ruby"
-    s.add_dependency "vying"
+    #s.add_dependency "vying"
     s.author = 'Eric K Idema and Magnus Javerberg'
     s.email = 'eki@vying.org'
   end
