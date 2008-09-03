@@ -8,45 +8,53 @@ begin
   SQLite = SQLite3
   DB_FILE = /footsteps3\.db$/
 rescue Exception
-  require 'sqlite'
-  DB_FILE = /footsteps.db$/
+  begin
+    require 'sqlite'
+    DB_FILE = /footsteps.db$/
+  rescue Exception
+    puts "WARNING: Failed to load OptimalBot, SQLite support is missing"
+  end
 end
 
-class OptimalBot < Bot
-  class Footsteps < Bot
+if Kernel.const_defined?( :SQLite )
 
-    difficulty :hard
+  class OptimalBot < Bot
+    class Footsteps < Bot
 
-    $:.each do |d|
-      Dir.glob( "#{d}/**/bots/optimalbot/*" ) do |f|
-        if f =~ DB_FILE
-          FOOTSTEPS_DB = f unless defined? FOOTSTEPS_DB
+      difficulty :hard
+
+      $:.each do |d|
+        Dir.glob( "#{d}/**/bots/optimalbot/*" ) do |f|
+          if f =~ DB_FILE
+            FOOTSTEPS_DB = f unless defined? FOOTSTEPS_DB
+          end
         end
       end
-    end
 
-    def select( sequence, position, player )
-      opp = player == :left ? :right : :left
-      marker = position.board.occupied[:white].first
-
-      dist = player == :left ? marker.x : 6 - marker.x
-      r = rand
-
-      db = SQLite::Database.new( FOOTSTEPS_DB )
-
-      b = db.get_first_value( "select bid from footsteps " +
-                              "  where points_a = ? " +
-                              "    and points_b = ? " +
-                              "    and distance_a = ? " +
-                              "    and prob_min <= ? " +
-                              "    and prob_max > ? ", 
-                              position.points[player],
-                              position.points[opp],
-                              dist,
-                              r, r )
-
-      "#{player}_#{b.nil? ? 1 : b}"
+      def select( sequence, position, player )
+        opp = player == :left ? :right : :left
+        marker = position.board.occupied[:white].first
+  
+        dist = player == :left ? marker.x : 6 - marker.x
+        r = rand
+  
+        db = SQLite::Database.new( FOOTSTEPS_DB )
+  
+        b = db.get_first_value( "select bid from footsteps " +
+                                "  where points_a = ? " +
+                                "    and points_b = ? " +
+                                "    and distance_a = ? " +
+                                "    and prob_min <= ? " +
+                                "    and prob_max > ? ", 
+                                position.points[player],
+                                position.points[opp],
+                                dist,
+                                r, r )
+  
+        "#{player}_#{b.nil? ? 1 : b}"
+      end
     end
   end
+
 end
 
