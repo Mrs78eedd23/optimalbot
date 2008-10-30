@@ -1,6 +1,10 @@
 
 require 'vying'
 
-require 'bots/optimalbot'
-require 'bots/optimalbot/footsteps.rb' unless defined? OptimalBot
+unless defined? OptimalBot
+  require 'bots/optimalbot'
+
+  puts 'requiring footsteps.rb'
+  require 'bots/optimalbot/footsteps.rb'
+end
 
