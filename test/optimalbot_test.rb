@@ -1,6 +1,7 @@
 require 'test/unit'
 
 require 'vying'
+require 'optimalbot'
 
 class OptimalBotTest < Test::Unit::TestCase
 
