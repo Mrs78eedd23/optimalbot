@@ -4,20 +4,23 @@
 require 'vying'
 require 'rubygems'
 
+
+
 begin
   require 'sqlite3'
   SQLite = SQLite3
-  DB_FILE = /footsteps3\.db$/
+  DB_FILE = /footsteps3\.db$/  unless Object.const_defined?( :DB_FILE )
 rescue Exception
   begin
     require 'sqlite'
-    DB_FILE = /footsteps.db$/
+    DB_FILE = /footsteps.db$/  unless Object.const_defined?( :DB_FILE )
   rescue Exception
     puts "WARNING: Failed to load OptimalBot, SQLite support is missing"
   end
 end
 
-if Object.const_defined?( :SQLite )
+if Object.const_defined?( :SQLite ) &&
+   ! Object.nested_const_defined?( "OptimalBot::Footsteps" )
 
   class OptimalBot < Bot
     class Footsteps < Bot
